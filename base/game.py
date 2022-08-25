@@ -7,7 +7,7 @@ class Game:
 
     # this is important, this classes initialisation function
     # sets up the attributes in the class and gives them initial values
-    def __init__(self, width, height):
+    def __init__(self, width, height, position=None):
         self.initialise_game()
         self.pygame.display.set_mode((width, height))
         self.background = None # TODO: set the background
