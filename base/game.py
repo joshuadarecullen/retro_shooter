@@ -10,7 +10,7 @@ class Game:
     def __init__(self, width, height, position=None):
         self.initialise_game()
         self.window = pygame.display.set_mode((width, height)) # set window
-        self.background = None # TODO: set the background
+        self.background = pygame.image.load('./images/backgrounds/menus/StartBackground.jpg') # background
         self.clock = pygame.time.Clock() # useful to keep track of time for in game stats
         self.running = True #  for main hyper-loop keeping the application running
         self.endgame = False
@@ -45,4 +45,4 @@ class Game:
             if self.endgame:
                 self.running = False
 
-            self.endgame = True
+            # self.endgame = True

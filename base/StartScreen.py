@@ -1,10 +1,12 @@
+import pygame
+from game import Game
 #TODO: set background, rethinking how the background will change
 
-class StartScreen:
+class StartMenu(Game):
     def __init__(self, width, height):
         self.initialize_game()
         self.window = pygame.display.set_mode((width, height))
-        self.background = pygame.image.load('') # background
+        self.background = pygame.image.load('./images/backgrounds/menus/StartBackground.jpg') # background
         self.clock = pygame.time.Clock()
         self.running = True
         self.endgame = False
@@ -12,13 +14,16 @@ class StartScreen:
         self.height = height
         self.start = Start(self.width // 2, self.height // 2)
 
-    def initialize_game():
+    def initialize_game(self):
         pygame.init()
         pygame.mixer.init()
         pygame.display.set_caption("Game")
         pygame.mixer.set_num_channels(8)
 
-    def redraw_window(self):
+    def redraw_menu_window(selection):
+        pass
+
+    def redraw_start_window(self):
         self.window.blit(self.background, (0, 0))
         self.start.draw_button(self.window)
         pygame.display.update()
@@ -29,7 +34,8 @@ class StartScreen:
 
             if self.endgame:
                 self.running = False
-            self.redraw_window()
+
+            self.redraw_start_window()
 
         pygame.quit()
 
