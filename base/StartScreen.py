@@ -29,15 +29,6 @@ class StartScreen:
 
             if self.endgame:
                 self.running = False
-
-            '''
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == 2 and event.dict['key'] == 27):
-                    self.running = False
-                if event.type == 5:
-                    print(event.pos)
-            '''
-
             self.redraw_window()
 
         pygame.quit()
@@ -52,7 +43,6 @@ class Button:
         self.text = None
         self.hitbox = (self.x, self.y, self.width, self.height)
 
-    # noinspection PyUnresolvedReferences
     def draw_button(self, window):
         pygame.draw.rect(window, self.color, self.hitbox)
 
