@@ -43,7 +43,7 @@ class Game:
             print('runnin')
 
             if self.endgame:
-                self.runnin = False
+                self.running = False
 
             temp_stop() # purely to stop loop
 
