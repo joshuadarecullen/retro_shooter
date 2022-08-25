@@ -1,4 +1,4 @@
-from .Player import * # importing from PLayer.py everything
+from player import * # importing from PLayer.py everything
 import pygame
 
 
@@ -38,7 +38,7 @@ class Game:
     # running the game itself
     def run(self):
 
-        while self.running
+        while self.running:
 
             print('runnin')
 
