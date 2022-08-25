@@ -6,7 +6,7 @@ class StartMenu(Game):
     def __init__(self, width, height):
         self.initialize_game()
         self.window = pygame.display.set_mode((width, height))
-        self.background = pygame.image.load('./images/backgrounds/menus/StartBackground.jpg') # background
+        self.background = pygame.image.load('./sprites/backgrounds/menus/StartBackground.jpg') # background
         self.clock = pygame.time.Clock()
         self.running = True
         self.endgame = False
