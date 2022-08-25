@@ -7,9 +7,9 @@ class Game:
 
     # this is important, this classes initialisation function
     # sets up the attributes in the class and gives them initial values
-    def __init__(self, width, height):
+    def __init__(self, width, height, position=None):
         self.initialise_game()
-        self.pygame.display.set_mode((width, height))
+        self.window = pygame.display.set_mode((width, height)) # set window
         self.background = None # TODO: set the background
         self.clock = pygame.time.Clock() # useful to keep track of time for in game stats
         self.running = True #  for main hyper-loop keeping the application running
@@ -43,10 +43,6 @@ class Game:
             print('runnin')
 
             if self.endgame:
-                self.runnin = False
+                self.running = False
 
-            temp_stop() # purely to stop loop
-
-
-    def temp_stop(self):
-        self.endgame = True
+            self.endgame = True
