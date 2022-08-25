@@ -28,16 +28,62 @@ class Player(Agent):
         self.health_bar = HealthBar(self, self.game)
         self.weapon = None
 
+        # images for changing direction of the character
+        self.walk_right = []
+        self.walk_left = []
 
+
+    # the function that will handle the users keyboard input
     def step(self):
-        pass
+
+        if keys[pygame.K_DOWN] and self.weapon:
+            drop_thread = Thread(target=self.weapon.drop, daemon=True)
+            drop_thread.start()
+        if keys[pygame.K_LEFT]:
+            self.x -= self.velocity
+            self.left, self.right, self.standing = True, False, False
+            if self.weapon:
+                self.weapon.left, self.weapon.right = True, False
+        elif keys[pygame.K_RIGHT]:
+            self.x += self.velocity
+            self.left, self.right, self.standing = False, True, False
+            if self.weapon:
+                self.weapon.left, self.weapon.right = False, True
+        else:
+            self.standing, self.walk_count = True, 0
 
 
-    def player_drawing(self):
-        pass
+    # drawing the new position of the player
+    def player_drawing(self, width, height, x_add=False, y_add=False):
+
+        if x_add:
+            temp = self.x + x_add
+            if temp < width and temp > -width:
+                self.x += x_add
+
+        if y_add:
+            temp = self.y + y_add
+            if temp < height and temp > -height:
+                self.y += y_add
 
 
     def initialise_respawn(self, x, y):
         self.x = x
         self.y = y
         self.heathbar.reset_health()
+
+### get methods for fetching players variable and states
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def get_position(self):
+        return self.theta
+
+    def get_health(self):
+        pass
+
+    def get_player_data(self):
+        pass
