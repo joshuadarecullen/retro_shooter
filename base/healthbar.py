@@ -17,3 +17,6 @@ class HealthBar(Agent):
 
     def draw_health_bar(self):
         pass
+
+    def reset_health(self):
+        self.current_health = self.max_health
