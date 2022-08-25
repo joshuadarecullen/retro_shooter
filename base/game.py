@@ -35,14 +35,25 @@ class Game:
     def respawn_player(self, player):
         pass
 
+
     # running the game itself
     def run(self):
 
         while self.running:
 
-            print('runnin')
-
             if self.endgame:
                 self.running = False
 
-            # self.endgame = True
+
+            # pygame events that indicate the exiting of the game
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == 2 and event.dict['key'] == 27):
+                    self.running = False
+
+            keys = pygame.key.get_pressed() # grab the key the user pressed
+            self.user_player.step(keys) # take action on the users player with respect to the key pressed
+            self.redraw_window(seld.window, self.background) # redraw with respect to new state of the game
+
+        pygame.quit()
+
+

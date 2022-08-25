@@ -14,19 +14,24 @@ class StartMenu(Game):
         self.height = height
         self.start = Start(self.width // 2, self.height // 2)
 
+        self.characters = get_characters()
+        self.selected_character = None
+
     def initialize_game(self):
         pygame.init()
         pygame.mixer.init()
         pygame.display.set_caption("Game")
         pygame.mixer.set_num_channels(8)
 
-    def redraw_menu_window(selection):
+    def draw_character_window(selection):
         pass
 
     def redraw_start_window(self):
         self.window.blit(self.background, (0, 0))
         self.start.draw_button(self.window)
         pygame.display.update()
+
+    def get_character():
 
     def run(self):
         while self.running:
