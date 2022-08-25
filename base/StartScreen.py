@@ -4,14 +4,10 @@ from game import Game
 
 class StartMenu(Game):
     def __init__(self, width, height):
+        super().__init__(width, height)
         self.initialize_game()
         self.window = pygame.display.set_mode((width, height))
         self.background = pygame.image.load('./sprites/backgrounds/menus/StartBackground.jpg') # background
-        self.clock = pygame.time.Clock()
-        self.running = True
-        self.endgame = False
-        self.width = width
-        self.height = height
         self.start = Start(self.width // 2, self.height // 2)
 
         self.characters = get_characters()
@@ -33,7 +29,7 @@ class StartMenu(Game):
 
     def get_character():
 
-    def run(self):
+    def start(self):
         while self.running:
             self.clock.tick(40)
 

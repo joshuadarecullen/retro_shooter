@@ -6,7 +6,7 @@ from weapon import Weapon
 # allows for less rep
 class Player(Agent):
 
-    def __init__(self, x, y, position, width, height, game_width, game_height, game, lives=5):
+    def __init__(self, x, y, position, width, height, velocity, game_width, game_height, game, lives=5):
         super().__init__(x,y,position) # super is the parent of Player: Agent, we have inherited x, y and theta as attributes for use in this class.
 
         # physical characteristics of the player
@@ -33,44 +33,65 @@ class Player(Agent):
         self.walk_left = []
 
 
-    # the function that will handle the users keyboard input
+''' The function that will handle the users keyboard input, and set the 
+    current move state to true '''
     def step(self):
 
-        if keys[pygame.K_DOWN] and self.weapon:
-            drop_thread = Thread(target=self.weapon.drop, daemon=True)
-            drop_thread.start()
+        if keys[pygame.K_DOWN]:
+            self.y -= self.velocity
+            self.set_state(flag=1)
         if keys[pygame.K_LEFT]:
             self.x -= self.velocity
-            self.left, self.right, self.standing = True, False, False
-            if self.weapon:
-                self.weapon.left, self.weapon.right = True, False
+            self.set_state(flag=2)
         elif keys[pygame.K_RIGHT]:
             self.x += self.velocity
-            self.left, self.right, self.standing = False, True, False
-            if self.weapon:
-                self.weapon.left, self.weapon.right = False, True
+            self.set_state(flag=3)
+        elif keys[pygame.K_UP]:
+            self.y += self.velocity
+            self.set_state(flag=4)
         else:
-            self.standing, self.walk_count = True, 0
+            self.standing = True
+
+
+    # set the current state of the players action
+    def set_state(self, flag):
+        if flag == 1:
+            self.up, self.right, self.left, self.down, self.standing = False, False, False, True, False
+        elif flag == 2:
+            self.up, self.right, self.left, self.down, self.standing = False, False, True, False, False
+        elif flag == 3:
+            self.up, self.right, self.left, self.down, self.standing = False, True, False, False, False
+        elif flag == 4:
+            self.up, self.right, self.left, self.down, self.standing = True, False, False, False, False
 
 
     # drawing the new position of the player
-    def player_drawing(self, width, height, x_add=False, y_add=False):
+    def player_drawing(self, width, height):
 
-        if x_add:
+        # check we are not standing
+        if not self.standing:
+            # these two if states check whether we are within the bounds
             temp = self.x + x_add
             if temp < width and temp > -width:
                 self.x += x_add
+                window.blit(self.walk_left[0], (self.x, self.y)
 
-        if y_add:
             temp = self.y + y_add
             if temp < height and temp > -height:
                 self.y += y_add
+                window.blit(self.walk_left[0], (self.x, self.y)
+
+        else:
+
+        self.hitbox = (self.x, self.y, self.width, self.height)
 
 
+    # reset the spawn
     def initialise_respawn(self, x, y):
         self.x = x
         self.y = y
         self.heathbar.reset_health()
+
 
 ### get methods for fetching players variable and states
     def get_x(self):
