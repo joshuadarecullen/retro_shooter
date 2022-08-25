@@ -1,5 +1,6 @@
 from base import *
 from heathbar import HealthBar
+from weapon import Weapon
 
 # inherit from the abstract class Agent, check it out
 # allows for less rep
@@ -16,7 +17,7 @@ class Player(Agent):
         self.standing = True
         self.lives = lives
         self.health_bar = HealthBar()
-        self.weapon = Weapon
+        self.weapon = Weapon()
         self.hitbox = (self.x, self.y, self.width, self.height)
 
     def step(self):
