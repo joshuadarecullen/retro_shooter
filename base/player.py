@@ -1,5 +1,5 @@
 from base import *
-from heathbar import HealthBar
+from healthbar import HealthBar
 from weapon import Weapon
 
 # inherit from the abstract class Agent, check it out
@@ -7,7 +7,7 @@ from weapon import Weapon
 class Player(Agent):
 
     def __init__(self, x, y, position, width, height, velocity, game_width, game_height, game, lives=5):
-        super().__init__(x,y,position) # super is the parent of Player: Agent, we have inherited x, y and theta as attributes for use in this class.
+        super().__init__(x, y, position) # super is the parent of Player: Agent, we have inherited x, y and theta as attributes for use in this class.
 
         # physical characteristics of the player
         self.width = width
@@ -33,28 +33,33 @@ class Player(Agent):
         self.walk_left = []
 
 
-''' The function that will handle the users keyboard input, and set the 
-    current move state to true '''
-    def step(self):
+    ''' The function that will handle the users keyboard input, and set the 
+        current move state to true '''
+    def step(self, keys):
 
         if keys[pygame.K_DOWN]:
             self.y -= self.velocity
             self.set_state(flag=1)
-        if keys[pygame.K_LEFT]:
+
+        elif keys[pygame.K_LEFT]:
             self.x -= self.velocity
             self.set_state(flag=2)
+
         elif keys[pygame.K_RIGHT]:
             self.x += self.velocity
             self.set_state(flag=3)
+
         elif keys[pygame.K_UP]:
             self.y += self.velocity
             self.set_state(flag=4)
+
         else:
             self.standing = True
 
 
     # set the current state of the players action
     def set_state(self, flag):
+
         if flag == 1:
             self.up, self.right, self.left, self.down, self.standing = False, False, False, True, False
         elif flag == 2:
@@ -74,14 +79,15 @@ class Player(Agent):
             temp = self.x + x_add
             if temp < width and temp > -width:
                 self.x += x_add
-                window.blit(self.walk_left[0], (self.x, self.y)
+                window.blit(self.walk_left[0], (self.x, self.y))
 
             temp = self.y + y_add
             if temp < height and temp > -height:
                 self.y += y_add
-                window.blit(self.walk_left[0], (self.x, self.y)
+                window.blit(self.walk_left[0], (self.x, self.y))
 
         else:
+            pass
 
         self.hitbox = (self.x, self.y, self.width, self.height)
 

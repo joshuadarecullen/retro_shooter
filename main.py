@@ -7,4 +7,4 @@ from StartScreen import StartMenu
 
 if __name__ == "__main__":
     test_game = StartMenu(1131, 675)
-    test_game.run()
+    test_game.main()

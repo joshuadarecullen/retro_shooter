@@ -1,3 +1,5 @@
+from base import *
+
 class Weapon(Agent):
     def __init__(self, player):
         self.player = player

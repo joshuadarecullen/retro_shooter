@@ -1,3 +1,5 @@
+from base import *
+
 class HealthBar(Agent):
     def __init__(self, player, game, max_health, min_health):
 

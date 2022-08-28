@@ -10,7 +10,7 @@ class Game:
     def __init__(self, width, height, position=None):
 
         self.clock = pygame.time.Clock() # useful to keep track of time for in game stats
-        self.running = True #  for main hyper-loop keeping the application running
+        self.main_running = True #  for main hyper-loop keeping the application running
         self.endgame = False
 
         # window variables
@@ -21,6 +21,7 @@ class Game:
         # agents within the game player and computer
         self.user_player = None
 
+
     # Here we initialise pygame and the window
     def initialise_game(self):
         pygame.init()
@@ -28,8 +29,10 @@ class Game:
         pygame.display.set_caption("Game")
         pygame.display.set_num_channels(8)
 
+
     # redraw what the user will be seeing
     def redraw_window(self, window, background):
+
         # set background
         window.blit(background, (0,0))
 
@@ -45,6 +48,7 @@ class Game:
         self.window = pygame.display.set_mode((self.width, self.height)) # set window
         self.background = pygame.image.load('./images/backgrounds/menus/InGameBackground.jpg') # background
         self.player.initialise_respawn() # set to the start position
+        self.redraw_window(self.window)
 
 
     # running the game itself
@@ -55,21 +59,18 @@ class Game:
 
         # TODO: initialise the computer enemies
 
-        while self.running:
+        while self.main_running:
 
             if self.endgame:
-                self.running = False
-
+                self.main_running = False
 
             # pygame events that indicate the exiting of the game
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == 2 and event.dict['key'] == 27):
-                    self.running = False
+                    self.main_running = False
 
             keys = pygame.key.get_pressed() # grab the key the user pressed
             self.user_player.step(keys) # take action on the users player with respect to the key pressed
             self.redraw_window(seld.window, self.background) # redraw with respect to new state of the game
 
         pygame.quit()
-
-
