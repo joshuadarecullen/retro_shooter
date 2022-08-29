@@ -1,4 +1,5 @@
-import pygame.font
+import pygame
+from pygame.locals import *
 
 class Button:
     def __init__(self, x, y, window):

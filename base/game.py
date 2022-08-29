@@ -1,6 +1,7 @@
 from player import * # importing from PLayer.py everything
 from ui_controls import *
 import pygame
+from pygame.locals import *
 
 
 # Class for the managing of the game and application
@@ -11,9 +12,9 @@ class Game:
     def __init__(self, width, height, position=None):
 
         # initialise pygame and application
-        self.initialize_game()
+        self.initialise_game()
         flags = RESIZABLE
-        Game.screen = pygame.display.set_mode((width, height), flags))
+        Game.screen = pygame.display.set_mode((width, height), flags)
 
         # UI start screen initialisation
         self.background = pygame.image.load('./sprites/backgrounds/menus/StartBackground.jpg') # background
@@ -21,7 +22,7 @@ class Game:
         self.width = width
         self.height = height
 
-        Game.start_text = Text('Retro Shooter', pos(20,20))
+        Game.start_text = Text('Retro Shooter', pos=(20,20))
 
         # self.start_button = Start(window = self.window, y=self.width, x=self.height)
         self.clock = pygame.time.Clock() # useful to keep track of time for in game stats
@@ -83,6 +84,7 @@ class Game:
                     self.running = False
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    pass
 
             Game.start_text.draw()
             pygame.display.update()
