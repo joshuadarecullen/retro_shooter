@@ -1,4 +1,5 @@
 from player import * # importing from PLayer.py everything
+from ui_controls import *
 import pygame
 
 
@@ -9,25 +10,39 @@ class Game:
     # sets up the attributes in the class and gives them initial values
     def __init__(self, width, height, position=None):
 
-        self.clock = pygame.time.Clock() # useful to keep track of time for in game stats
-        self.main_running = True #  for main hyper-loop keeping the application running
-        self.endgame = False
+        # initialise pygame and application
+        self.initialize_game()
+        flags = RESIZABLE
+        Game.screen = pygame.display.set_mode((width, height), flags))
 
+        # UI start screen initialisation
+        self.background = pygame.image.load('./sprites/backgrounds/menus/StartBackground.jpg') # background
         # window variables
         self.width = width
         self.height = height
-        self.background = None
+
+        Game.start_text = Text('Retro Shooter', pos(20,20))
+
+        # self.start_button = Start(window = self.window, y=self.width, x=self.height)
+        self.clock = pygame.time.Clock() # useful to keep track of time for in game stats
+
+        #  for main hyper-loop keeping the application running
+        self.running = True 
+        self.endgame = False
+
 
         # agents within the game player and computer
         self.user_player = None
+        self.characters = self.get_characters()
+        self.selected_character = None
 
 
     # Here we initialise pygame and the window
     def initialise_game(self):
         pygame.init()
-        pygame.mixer.init()
-        pygame.display.set_caption("Game")
-        pygame.display.set_num_channels(8)
+        # pygame.mixer.init()
+        # pygame.display.set_caption("Retro Shooter")
+        # pygame.display.set_num_channels(8)
 
 
     # redraw what the user will be seeing
@@ -44,33 +59,37 @@ class Game:
         pass
 
 
-    def initialise_real_game(self):
-        self.window = pygame.display.set_mode((self.width, self.height)) # set window
-        self.background = pygame.image.load('./images/backgrounds/menus/InGameBackground.jpg') # background
-        self.player.initialise_respawn() # set to the start position
-        self.redraw_window(self.window)
+    # get available characters
+    def get_characters(self):
+        pass
 
 
     # running the game itself
     def run(self, player):
 
-        self.user_player = player 
-        self.initialise_real_game()
+        # self.user_player = player 
+        # self.initialise_real_game()
 
         # TODO: initialise the computer enemies
 
-        while self.main_running:
+        while self.running:
 
             if self.endgame:
-                self.main_running = False
+                self.running = False
 
             # pygame events that indicate the exiting of the game
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == 2 and event.dict['key'] == 27):
-                    self.main_running = False
+                if event.type == pygame.QUIT: #or (event.type == 2 and event.dict['key'] == 27):
+                    self.running = False
 
-            keys = pygame.key.get_pressed() # grab the key the user pressed
-            self.user_player.step(keys) # take action on the users player with respect to the key pressed
-            self.redraw_window(seld.window, self.background) # redraw with respect to new state of the game
+                if event.type == pygame.MOUSEBUTTONDOWN:
+
+            Game.start_text.draw()
+            pygame.display.update()
+
+
+            # keys = pygame.key.get_pressed() # grab the key the user pressed
+            # self.user_player.step(keys) # take action on the users player with respect to the key pressed
+            # self.redraw_window(seld.window, self.background) # redraw with respect to new state of the game
 
         pygame.quit()
