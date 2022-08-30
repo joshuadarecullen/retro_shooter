@@ -45,7 +45,7 @@ class StartMenu(Menu):
         # A list of text objects (each object in he list corresponds to a title)
         self.text_objs = [Text(self.titles[i], pos=self.poses[i], **self.options) for i in range(3)]
 
-        self.cursor_rect.midtop = tuple(self.offsets['Enter'])
+        self.cursor_rect.midtop = self.offsets['Enter']
 
 
     # diplaying the start menu
@@ -118,11 +118,9 @@ class StartMenu(Menu):
         if self.game.START_KEY:
 
             if self.state == 'Start':
-                self.game.playing = True
-
+                self.game.curr_menu = self.game.main_menu
             elif self.state == 'Settings':
-                pass
-
+                self.game.curr_menu = self.game.settings_menu
             elif self.state == 'Credits':
                 self.game.curr_menu = self.game.credits_menu
 
@@ -132,6 +130,23 @@ class StartMenu(Menu):
 class SettingsMenu(Menu):
     def __init__(self, game):
         super().__init__(game)
+
+    def display_menu(self):
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+
+            # check if user wants to go back to start screen
+            if self.game.BACK_KEY or self.game.START_KEY:
+                self.game.curr_menu = self.game.start_menu
+                self.run_display = False
+
+            # wipe canvas
+            self.game.display.fill(self.game.BLACK)
+
+            # set up text for menu
+            self.game.draw_obj(Text('Setting', pos=(self.game.width/2, self.game.height/2.5)))
+            self.blit_screen()
 
 
 class CreditsMenu(Menu):
@@ -154,12 +169,62 @@ class CreditsMenu(Menu):
 
             # set up text for menu
             self.game.draw_obj(Text('Credits', pos=(self.game.width/2, self.game.height/2.5)))
-            self.game.draw_obj(Text('Made by currently: me, soon to be bradley aswell', pos=(self.game.width/2, self.game.height/2), **self.options))
+            self.game.draw_obj(Text('Made by me, soon to be bradley the bum', pos=(self.game.width/2, self.game.height/2), **self.options))
             self.blit_screen()
+
 
 class MainMenu(Menu):
     def __init__(self, game):
         super().__init__(game)
+
+        self.state = 'Start'
+        self.options = {'fontsize': 20}
+
+    def display_menu(self):
+        self.run_display = True
+
+        while self.run_display:
+            self.game.check_events()
+
+            # check for user selection from start menu
+            self.check_input()
+
+            # check if user wants to go back to start screen
+            if self.game.BACK_KEY:
+                self.game.curr_menu = self.game.start_menu
+                self.run_display = False
+
+            # wipe canvas
+            self.game.display.fill(self.game.BLACK)
+
+            # Set the title
+            self.game.draw_obj(Text('Main Menu', pos=(self.game.width/2, self.game.height/3), **self.options))
+
+            # set up gui for main menu
+            self.blit_screen()
+
+
+    def check_input(self):
+
+        self.move_cursor()
+
+        if self.game.START_KEY:
+            if self.state == 'Start':
+                self.game.playing = True
+
+
+    def move_cursor(self):
+
+        # if down key pressed check the current state and adjust accordingly
+        if self.game.DOWN_KEY:
+            if self.state == 'Start':
+                pass
+
+        # same logic for user pressing the up key
+        if self.game.UP_KEY:
+            if self.state == 'Start':
+                pass
+
 
 class GameMenu(Menu):
     def __init__(self, game):

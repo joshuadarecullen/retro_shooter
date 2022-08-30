@@ -10,8 +10,11 @@ class Game(App):
     def __init__(self, width, height):
         super().__init__(width, height)
 
+        # create all menu objects
         self.start_menu = StartMenu(self)
         self.credits_menu = CreditsMenu(self)
+        self.setting_menu = SettingsMenu(self)
+        self.main_menu = MainMenu(self)
         self.curr_menu = self.start_menu
 
     # redraw what the user will be seeing
