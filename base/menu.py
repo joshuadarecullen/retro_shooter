@@ -9,10 +9,11 @@ class Menu:
         self.mid_w, self.mid_h = self.game.width/2, self.game.height/2
         self.run_display = True # tell our menu to keep running
         self.cursor_rect = pygame.Rect(0,0,20,20) # cursor
-        self.offset = 100 # dont want cursor on top of text
+        self.offset = 50 # dont want cursor on top of text
+        self.options = {'fontsize: 20'}
 
     def draw_cursor(self):
-        self.game.draw_obj(Text('*', pos=(self.cursor_rect.x,self.cursor_rect.y), opitions = {'fontsize: 20'}))
+        self.game.draw_obj(Text('*', pos=(self.cursor_rect.x,self.cursor_rect.y), **self.options))
 
     def blit_screen(self):
         self.game.screen.blit(self.game.display,(0,0))
@@ -34,10 +35,10 @@ class StartMenu(Menu):
         self.titles = ['Enter', 'Settings', 'Credits']
 
         # creating the position of each title on the canvas, shape=(2,3)
-        self.poses = [(self.mid_w, self.mid_h + x) for x in range(30, 71, 20)]
+        self.poses = [[self.mid_w, self.mid_h + x] for x in range(30, 71, 20)]
 
         # cursor off set for each title, shape = (2,3)
-        self.offsets = {self.titles[i]: self.poses[i] for i in range(3)}
+        self.offsets = {self.titles[i]: (self.poses[i][0] + self.offset, self.poses[i][1]) for i in range(3)}
 
         # options to configure the Text object
         self.options = {'fontsize': 20, 'fontcolour': 'white'}
@@ -45,6 +46,8 @@ class StartMenu(Menu):
         # A list of text objects (each object in he list corresponds to a title)
         self.text_objs = [Text(self.titles[i], pos=self.poses[i], **self.options) for i in range(3)]
 
+        # doesnt matter but nice to set cursor to top of the options
+        # plus if we dont have this here the cursor wont be visible until user hits an arrow key
         self.cursor_rect.midtop = self.offsets['Enter']
 
 
