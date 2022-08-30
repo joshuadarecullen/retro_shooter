@@ -2,6 +2,8 @@ from player import *
 from app import *
 from ui_elements import Text, Button, Scene
 from menu import *
+from spritespread import SpriteSheet
+
 import pygame
 from pygame.locals import *
 
@@ -22,6 +24,9 @@ class Game(App):
         self.main_menu = MainMenu(self)
         self.curr_menu = self.start_menu
 
+        # TODO: main game object intialised in here ? player object and other agents with
+        #       that class ? or return player object from game menu and create in here
+
     # redraw what the user will be seeing
     def update(self):
         # set background
@@ -35,6 +40,8 @@ class Game(App):
 
     # running the game itself
     def run(self):
+
+        # TODO: implement delta time for framerate calibration on different hardware
 
         while self.playing:
 
