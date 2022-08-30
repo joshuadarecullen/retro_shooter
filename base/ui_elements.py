@@ -29,7 +29,6 @@ class Text:
     def draw(self, screen):
         """Draw the text image to the screen."""
         screen.blit(self.img, self.rect)
-        print(f'inside: {screen}')
 
 
 class Button(Text):

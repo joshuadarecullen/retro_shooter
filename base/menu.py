@@ -1,4 +1,5 @@
 import pygame
+# from pygame.locals import *
 from ui_elements import Text, Button
 
 # Menu abstract class
@@ -8,7 +9,7 @@ class Menu:
         self.mid_w, self.mid_h = self.game.width/2, self.game.height/2
         self.run_display = True # tell our menu to keep running
         self.cursor_rect = pygame.Rect(0,0,20,20) # cursor
-        self.offset = -100 # dont want cursor on top of text
+        self.offset = 100 # dont want cursor on top of text
 
     def draw_cursor(self):
         self.game.draw_obj(Text('*', pos=(self.cursor_rect.x,self.cursor_rect.y), opitions = {'fontsize: 20'}))
@@ -30,7 +31,7 @@ class StartMenu(Menu):
         self.state = 'Start'
 
         # possible options for the start menu
-        self.titles = ['Enter', 'Setting', 'Credits']
+        self.titles = ['Enter', 'Settings', 'Credits']
 
         # creating the position of each title on the canvas, shape=(2,3)
         self.poses = [(self.mid_w, self.mid_h + x) for x in range(30, 71, 20)]
@@ -42,7 +43,9 @@ class StartMenu(Menu):
         self.options = {'fontsize': 20, 'fontcolour': 'white'}
 
         # A list of text objects (each object in he list corresponds to a title)
-        self.text_objs = [Text(self.titles[i], pos=tuple(self.poses[i]), **self.options) for i in range(3)]
+        self.text_objs = [Text(self.titles[i], pos=self.poses[i], **self.options) for i in range(3)]
+
+        self.cursor_rect.midtop = tuple(self.offsets['Enter'])
 
 
     # diplaying the start menu
@@ -63,7 +66,7 @@ class StartMenu(Menu):
             self.game.display.fill(self.game.BLACK)
 
             # Set the title
-            self.game.draw_obj(Text('Start Menu', pos=(self.game.width/2, self.game.height), **self.options))
+            self.game.draw_obj(Text('Start Menu', pos=(self.game.width/2, self.game.height/2), **self.options))
 
             # display the text objects for the start menu
             for obj in self.text_objs:
@@ -107,6 +110,7 @@ class StartMenu(Menu):
                 self.cursor_rect.midtop = tuple(self.offsets['Settings'])
                 self.state = 'Settings'
 
+
     def check_input(self):
 
         self.move_cursor()
@@ -120,24 +124,43 @@ class StartMenu(Menu):
                 pass
 
             elif self.state == 'Credits':
-                pass
+                self.game.curr_menu = self.game.credits_menu
 
-        self.run_display = False # when play selects with start key it will tell the display menu function to stop
+            self.run_display = False # when play selects with start key it will tell the display menu function to stop
 
 
 class SettingsMenu(Menu):
-
     def __init__(self, game):
         super().__init__(game)
 
+
+class CreditsMenu(Menu):
+    def __init__(self, game):
+        super().__init__(game)
+        self.options = {'fontsize': 20}
+
+    def display_menu(self):
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+
+            # check if user wants to go back to start screen
+            if self.game.BACK_KEY or self.game.START_KEY:
+                self.game.curr_menu = self.game.start_menu
+                self.run_display = False
+
+            # wipe canvas
+            self.game.display.fill(self.game.BLACK)
+
+            # set up text for menu
+            self.game.draw_obj(Text('Credits', pos=(self.game.width/2, self.game.height/2.5)))
+            self.game.draw_obj(Text('Made by currently: me, soon to be bradley aswell', pos=(self.game.width/2, self.game.height/2), **self.options))
+            self.blit_screen()
 
 class MainMenu(Menu):
-
     def __init__(self, game):
         super().__init__(game)
 
-
 class GameMenu(Menu):
-
     def __init__(self, game):
         super().__init__(game)

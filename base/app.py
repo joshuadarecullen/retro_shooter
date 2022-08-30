@@ -13,16 +13,19 @@ class App:
 
         # Here we initialise pygame
         pygame.init()
+
         # window variables
         self.width = width
         self.height = height
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
 
         # initialise pygame and window
-        flags = RESIZABLE
-        self.rect = Rect(0, 0, self.width, self.height)
+        flags = pygame.RESIZABLE
+        self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.display = pygame.Surface(self.rect.size, flags) # canvas
         self.screen = pygame.display.set_mode(self.rect.size, flags)
+
+        pygame.display.set_caption('Retro Shooter')
         self.background = None
 
         # useful to keep track of time for in game stats
@@ -48,23 +51,9 @@ class App:
         }
 
 
-    # running the game itself
-    def run(self):
-
-        while self.playing:
-
-            self.check_events()
-
-            if self.START_KEY:
-                self.playing = False
-
-            self.display.fill(self.BLACK)
-            self.screen.blit(self.display, (0,0)) # aligning display with window
-            pygame.display.update() # update computer screen
-            self.reset_keys()
-
-        pygame.quit()
-
+    # drawing elements to the screen
+    def draw_obj(self, object):
+        object.draw(self.display)
 
     def do_shortcut(self, event):
         """Find the the key/mod combination in the dictionary and execute the cmd."""
@@ -90,4 +79,8 @@ class App:
 
     def reset_keys(self):
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False,False,False,False
+
+    def title(self, value):
+        pygame.display.set_caption(value)
+
 
