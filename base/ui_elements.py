@@ -2,6 +2,50 @@ import pygame
 # import pygame.font
 from pygame.locals import *
 
+
+# Creating Text
+class Text:
+    """Create a text object."""
+    def __init__(self, text, pos, **options):
+        self.text = text
+        self.pos = pos
+
+        self.fontname = options['fontname'] if 'fontname' in options.keys() else None
+        self.fontsize = options['fontsize'] if 'fontsize' in options.keys() else 72
+        self.fontcolour = Color(options['fontcolour']) if 'fontcolour' in options.keys() else Color('white')
+        self.set_font()
+        self.render()
+
+    def set_font(self):
+        """Set the font from its name and size."""
+        self.font = pygame.font.Font(self.fontname, self.fontsize)
+
+    def render(self):
+        """Render the text into an image."""
+        self.img = self.font.render(self.text, True, self.fontcolour)
+        self.rect = self.img.get_rect()
+        self.rect.center = self.pos
+
+    def draw(self, screen):
+        """Draw the text image to the screen."""
+        screen.blit(self.img, self.rect)
+        print(f'inside: {screen}')
+
+
+class Button(Text):
+
+    def __init__(self, text, pos, **options):
+        super().__init__(text, pos, **options)
+        self.button_colour = options['button_colour'] if 'button_colour' in options.keys() else (0, 0, 0)
+
+    # overiding the draw function in Text class
+    def draw(self, screen):
+        """Draw the button image to the screen."""
+        # Difference between Text class is that we fill area surrounding the text
+        screen.fill(self.button_colour, self.rect)
+        screen.blit(self.img, self.rect)
+
+
 # Creating different scenes for the game, each screen an object
 class Scene:
 
@@ -32,64 +76,3 @@ class Scene:
     def __str__(self):
         return f'Scene {self.id}'
 
-
-# Creating Text
-class Text:
-    """Create a text object."""
-
-    def __init__(self, text, pos, **options):
-        self.text = text
-        self.pos = pos
-
-        self.fontname = None
-        self.fontsize = 72
-        self.fontcolor = Color('black')
-        self.set_font()
-        self.render()
-
-    def set_font(self):
-        """Set the font from its name and size."""
-        self.font = pygame.font.Font(self.fontname, self.fontsize)
-
-    def render(self):
-        """Render the text into an image."""
-        self.img = self.font.render(self.text, True, self.fontcolor)
-        self.rect = self.img.get_rect()
-        self.rect.topleft = self.pos
-
-    def draw(self, screen):
-        """Draw the text image to the screen."""
-        screen.blit(self.img, self.rect)
-
-
-# creating buttons
-class Button():
-
-    def __init__(self, ai_settings, screen, msg):
-        """Initialize button attributes"""
-        self.screen = screen
-        self.screen_rect = screen.get_rect()
-
-        # Set the dimensions and properties of the button.
-        self.width, self.height = 200, 50
-        self.button_color = (0, 255, 0)
-        self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 48)
-
-        # Build the button's rect object and center it.
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.center = self.screen_rect.center
-
-        # The Button message needs to be prepped only once.
-        self.prep_msg(msg)
-
-    def prep_msg(self, msg):
-        """ Turn msg into a rendered image and center text on the button"""
-        self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
-        self.msg_image_rect = self.msg_image.get_rect()
-        self.msg_image_rect.center = self.rect.center
-
-    def draw_button(self):
-        # Draw blank button and then draw the message
-        self.screen.fill(self.button_color, self.rect)
-        self.screen.blit(self.msg_image, self.msg_image_rect)
