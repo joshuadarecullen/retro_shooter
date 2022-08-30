@@ -1,5 +1,6 @@
-from player import * # importing from PLayer.py everything
-# from ui_controls import Text, Button
+from player import *
+from ui_elements import Text, Button, Scene
+
 import pygame
 from pygame.locals import *
 
@@ -15,7 +16,7 @@ class Game:
         self.initialise_game()
         flags = RESIZABLE
         self.rect = Rect(0, 0, 640, 240)
-        Game.screen = pygame.display.set_mode(self.rect.size, flags)
+        self.screen = pygame.display.set_mode(self.rect.size, flags)
 
         # UI start screen initialisation
         self.background = None
@@ -23,15 +24,15 @@ class Game:
         self.width = width
         self.height = height
 
-        Game.start_text = Text('Retro Shooter', pos=(20,20))
+        self.start_text = Text('Retro Shooter', pos=(20,20))
 
         # self.start_button = Start(window = self.window, y=self.width, x=self.height)
         self.clock = pygame.time.Clock() # useful to keep track of time for in game stats
 
         #  for main hyper-loop keeping the application running
-        self.running = True 
-        self.endgame = False
+        self.running, self.player = True, False
 
+        self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False,False,False,False
 
         # agents within the game player and computer
         self.user_player = None
@@ -52,7 +53,7 @@ class Game:
 
     def get_scenes(self):
 
-        Scene(caption='Intro')
+        Scene(img_folder='./sprites/backgrounds/menus', file='StartBackground.jpg', caption='Intro')
         Text('Scene 0')
         Text('Introduction screen the app')
 
@@ -63,7 +64,7 @@ class Game:
         Scene(bg=Color('green'), caption='Main')
         Text('Scene 2')
         Text('Main screen of the app')
-        Game.scene = App.scenes[0]
+        self.scene = self.scenes[0]
 
     def do_shortcut(self, event):
         """Find the the key/mod combination in the dictionary and execute the cmd."""
@@ -118,31 +119,28 @@ class Game:
         pass
 
 
+    def check_events(self):
+        # pygame events that indicate the exiting of the game
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: #or (event.type == 2 and event.dict['key'] == 27):
+                self.running self.player = False, False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+            if event.type == KEYDOWN:
+                self.do_shortcut(event)
+
     # running the game itself
     def run(self):
 
         # self.user_player = player 
-        # self.initialise_real_game()
 
         # TODO: initialise the computer enemies
 
         while self.running:
 
-            if self.endgame:
-                self.running = False
+            self.check_events()
 
-            # pygame events that indicate the exiting of the game
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT: #or (event.type == 2 and event.dict['key'] == 27):
-                    self.running = False
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    pass
-                if event.type == KEYDOWN:
-                    self.do_shortcut(event)
-
-            Game.start_text.draw()
-            self.redraw_window()
             pygame.display.update()
 
 
@@ -151,56 +149,3 @@ class Game:
             # self.redraw_window(seld.window, self.background) # redraw with respect to new state of the game
 
         pygame.quit()
-
-
-# Creating different scenes for the game, each screen an object
-class Scene:
-
-    def __init__(self, *args, **kwargs):
-        # Append the new scene and make it the current scene
-        Game.scenes.append(self)
-        Game.scene = self
-        # Set the instance id and increment the class id
-        self.id = Scene.id
-        Scene.id += 1
-        self.nodes = []
-        self.bg = Scene.bg
-
-    def draw(self):
-        """Draw all objects in the scene."""
-        Game.screen.fill(self.bg)
-        for node in self.nodes:
-            node.draw()
-        pygame.display.flip()
-
-    def __str__(self):
-        return f'Scene {self.id}'
-
-
-# Text class
-class Text:
-    """Create a text object."""
-
-    def __init__(self, text, pos, **options):
-        self.text = text
-        self.pos = pos
-
-        self.fontname = None
-        self.fontsize = 72
-        self.fontcolor = Color('black')
-        self.set_font()
-        self.render()
-
-    def set_font(self):
-        """Set the font from its name and size."""
-        self.font = pygame.font.Font(self.fontname, self.fontsize)
-
-    def render(self):
-        """Render the text into an image."""
-        self.img = self.font.render(self.text, True, self.fontcolor)
-        self.rect = self.img.get_rect()
-        self.rect.topleft = self.pos
-
-    def draw(self):
-        """Draw the text image to the screen."""
-        Game.screen.blit(self.img, self.rect)
