@@ -10,7 +10,7 @@ class Menu:
         self.run_display = True # tell our menu to keep running
         self.cursor_rect = pygame.Rect(0,0,20,20) # cursor
         self.offset = 50 # dont want cursor on top of text
-        self.options = {'fontsize: 20'}
+        self.options = {'fontsize: 20'} # option for the class variables in Text
 
     def draw_cursor(self):
         self.game.draw_obj(Text('*', pos=(self.cursor_rect.x,self.cursor_rect.y), **self.options))
@@ -43,7 +43,7 @@ class StartMenu(Menu):
         # options to configure the Text object
         self.options = {'fontsize': 20, 'fontcolour': 'white'}
 
-        # A list of text objects (each object in he list corresponds to a title)
+        # A list of text objects (each object in the list corresponds to a title)
         self.text_objs = [Text(self.titles[i], pos=self.poses[i], **self.options) for i in range(3)]
 
         # doesnt matter but nice to set cursor to top of the options
@@ -58,7 +58,6 @@ class StartMenu(Menu):
 
         # another loop to keep the diplay showing until otherwise
         while self.run_display:
-
 
             # get users input to primarily set the logic for the cursor movement
             self.game.check_events()
@@ -149,7 +148,7 @@ class SettingsMenu(Menu):
             self.game.display.fill(self.game.BLACK)
 
             # set up text for menu
-            self.game.draw_obj(Text('Setting', pos=(self.game.width/2, self.game.height/2.5)))
+            self.game.draw_obj(Text('Settings', pos=(self.game.width/2, self.game.height/2.5)))
             self.blit_screen()
 
 
@@ -190,11 +189,11 @@ class MainMenu(Menu):
         while self.run_display:
             self.game.check_events()
 
-            # check for user selection from start menu
-            self.check_input()
+            # # check for user selection from main menu
+            # self.check_input()
 
             # check if user wants to go back to start screen
-            if self.game.BACK_KEY:
+            if self.game.BACK_KEY or self.game.START_KEY:
                 self.game.curr_menu = self.game.start_menu
                 self.run_display = False
 

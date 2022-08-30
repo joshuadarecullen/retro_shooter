@@ -33,6 +33,7 @@ class Game(App):
 
         while self.playing:
 
+            # check for events
             self.check_events()
 
             if self.START_KEY:
@@ -45,7 +46,7 @@ class Game(App):
             self.reset_keys() # reset keys to track next command from user
 
 
-    # checking possible events in this menu
+    # checking possible events, will reused alot
     def check_events(self):
         # pygame events, key presses from user etc
         for event in pygame.event.get():
