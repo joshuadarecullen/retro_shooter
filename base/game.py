@@ -10,7 +10,12 @@ class Game(App):
     def __init__(self, width, height):
         super().__init__(width, height)
 
-        # create all menu objects
+        '''
+            create all menu objects, the self passed as an arguement refers to the
+            Game class itself, check the implementation of StartMenu __init__ with
+            all the other menus take the same form, we then have a reference to
+            the object in memory and manipulate its variables and use its methods
+        '''
         self.start_menu = StartMenu(self)
         self.credits_menu = CreditsMenu(self)
         self.settings_menu = SettingsMenu(self)
