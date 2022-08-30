@@ -6,7 +6,7 @@ from ui_elements import Text, Button
 class Menu:
     def __init__(self, game):
         self.game = game
-        self.mid_w, self.mid_h = self.game.width/2, self.game.height/2
+        self.mid_w, self.mid_h = self.game.rect.width/2, self.game.rect.height/2
         self.run_display = True # tell our menu to keep running
         self.cursor_rect = pygame.Rect(0,0,20,20) # cursor
         self.offset = 50 # dont want cursor on top of text
@@ -59,6 +59,7 @@ class StartMenu(Menu):
         # another loop to keep the diplay showing until otherwise
         while self.run_display:
 
+
             # get users input to primarily set the logic for the cursor movement
             self.game.check_events()
 
@@ -69,7 +70,7 @@ class StartMenu(Menu):
             self.game.display.fill(self.game.BLACK)
 
             # Set the title
-            self.game.draw_obj(Text('Start Menu', pos=(self.game.width/2, self.game.height/2), **self.options))
+            self.game.draw_obj(Text('Start Menu', pos=(self.game.rect.width/2, self.game.rect.height/2), **self.options))
 
             # display the text objects for the start menu
             for obj in self.text_objs:

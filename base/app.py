@@ -20,10 +20,10 @@ class App:
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
 
         # initialise pygame and window
-        flags = pygame.RESIZABLE
+        # flags = pygame.RESIZABLE
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.display = pygame.Surface(self.rect.size, flags) # canvas
-        self.screen = pygame.display.set_mode(self.rect.size, flags)
+        self.display = pygame.Surface(self.rect.size)  #, flags) this is the canvas
+        self.screen = pygame.display.set_mode(self.rect.size) #, flags)
 
         pygame.display.set_caption('Retro Shooter')
         self.background = None
@@ -53,6 +53,7 @@ class App:
 
     # drawing elements to the screen
     def draw_obj(self, object):
+        # use display here so we can add multply elements before updating screen
         object.draw(self.display)
 
     def do_shortcut(self, event):
@@ -69,8 +70,9 @@ class App:
 
     def toggle_resizable(self):
         """Toggle between resizable and fixed-size window."""
-        self.flags ^= RESIZABLE
+        self.flags ^= pygame.RESIZABLE
         pygame.display.set_mode(self.rect.size, self.flags)
+        self.screen = pygame.display.set_mode(self.rect.size, flags)
 
     def toggle_frame(self):
         """Toggle between frame and noframe window."""

@@ -13,7 +13,7 @@ class Game(App):
         # create all menu objects
         self.start_menu = StartMenu(self)
         self.credits_menu = CreditsMenu(self)
-        self.setting_menu = SettingsMenu(self)
+        self.settings_menu = SettingsMenu(self)
         self.main_menu = MainMenu(self)
         self.curr_menu = self.start_menu
 
