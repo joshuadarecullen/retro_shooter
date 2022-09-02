@@ -1,4 +1,7 @@
-from base import *
+# import sys
+# sys.path.append('./app')
+
+from base import Agent
 
 class HealthBar(Agent):
     def __init__(self, player, game, max_health, min_health):

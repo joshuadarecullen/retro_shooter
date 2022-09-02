@@ -32,6 +32,8 @@ class Player(Agent):
         self.walk_right = []
         self.walk_left = []
 
+        self.actions = {'Left': False, 'Right': False, 'Down': False, 'Up': False}
+
 
     ''' The function that will handle the users keyboard input, and set the 
         current move state to true '''
@@ -71,7 +73,7 @@ class Player(Agent):
 
 
     # drawing the new position of the player
-    def player_drawing(self, width, height):
+    def draw(self, width, height):
 
         # check we are not standing
         if not self.standing:

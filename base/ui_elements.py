@@ -1,32 +1,75 @@
 import pygame
-# import pygame.font
+import pygame.font
 from pygame.locals import *
 
 
 # Creating Text
 class Text:
     """Create a text object."""
-    def __init__(self, text, pos, **options):
+    def __init__(self, text, position, **options):
         self.text = text
-        self.pos = pos
+        self._pos = position
 
-        self.fontname = options['fontname'] if 'fontname' in options.keys() else None
-        self.fontsize = options['fontsize'] if 'fontsize' in options.keys() else 72
-        self.fontcolour = Color(options['fontcolour']) if 'fontcolour' in options.keys() else Color('white')
+        self._fontname = options['fontname'] if 'fontname' in options.keys() else None
+        self._fontsize = options['fontsize'] if 'fontsize' in options.keys() else 20
+        self._fontcolour = Color(options['fontcolour']) if 'fontcolour' in options.keys() else Color('white')
         self.set_font()
         self.render()
 
+    @property
+    def font(self):
+        return self.font
+
+    @font.setter
+    def font(self, value):
+        """Set the font from its name and size."""
+        self._font = pygame.font.Font(self.fontname, self.fontsize)
+
     def set_font(self):
         """Set the font from its name and size."""
-        self.font = pygame.font.Font(self.fontname, self.fontsize)
+        self._font = pygame.font.Font(self.fontname, self.fontsize)
 
     def render(self):
         """Render the text into an image."""
-        self.img = self.font.render(self.text, True, self.fontcolour)
+        self.img = self._font.render(self.text, True, self._fontcolour)
         self.rect = self.img.get_rect()
-        self.rect.center = self.pos
+        self.rect.center = self._pos
+
+    @property
+    def pos(self):
+        return self._pos
+
+    @pos.setter
+    def pos(self, value):
+        self._pos = value
+
+    @property
+    def fontcolour(self):
+        return self._fontcolour
+
+    @fontcolour.setter
+    def fontcolour(self, value):
+        self._fontcolour = value
+
+    @property
+    def fontsize(self):
+        return self._fontsize
+
+    @fontsize.setter
+    def fontsize(self, value):
+        self._fontsize = value
+
+    @property
+    def fontname(self):
+        return self._fontname
+
+    @fontname.setter
+    def fontname(self, value):
+        self._fontname = value
 
     def draw(self, screen):
+        self.set_font()
+        self.render()
         """Draw the text image to the screen."""
         screen.blit(self.img, self.rect)
 
@@ -43,35 +86,4 @@ class Button(Text):
         # Difference between Text class is that we fill area surrounding the text
         screen.fill(self.button_colour, self.rect)
         screen.blit(self.img, self.rect)
-
-
-# Creating different scenes for the game, each screen an object
-class Scene:
-
-    def __init__(self, *args, **kwargs):
-        # Append the new scene and make it the current scene
-        self.scenes.append(self)
-        self.scene = self
-        # Set the instance id and increment the class id
-        self.id = Scene.id
-        Scene.id += 1
-        self.nodes = []
-        self.bg = Scene.bg
-        self.file = Scene.options['file']
-
-        if self.file != '':
-            self.img = pygame.image.load(self.file)
-            size = self.screen.get_size()
-            self.img = pygame.transform.smoothscale(self.img, size)
-        self.enter()
-
-    def draw(self, screen):
-        """Draw all objects in the scene."""
-        screen.fill(self.bg)
-        for node in self.nodes:
-            node.draw()
-        pygame.display.flip()
-
-    def __str__(self):
-        return f'Scene {self.id}'
 
