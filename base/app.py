@@ -2,29 +2,6 @@ import pygame
 
 
 class Application:
-    """A simple wrapper around :mod:`pygame` for running games easily.
-    Also makes scene management seamless together with
-    the :class:`.Scene` class.
-    :param str|None title: title to display in the window's title bar
-    :param tuple[int,int]|None resolution: resolution of the game window
-    :param int|None update_rate: how many times per second to update
-    If any parameters are left to ``None``, these settings must be
-    defined either manually through ``application.<setting> = value``
-    or via :class:`.Scene`'s class variable settings.
-    Example usage:
-    .. code-block:: python
-        class Menu(ezpygame.Scene):
-            ...
-        class Game(ezpygame.Scene):
-            ...
-        app = ezpygame.Application(
-            title='My First EzPyGame Application',
-            resolution=(1280, 720),
-            update_rate=60,
-        )
-        main_menu = Menu()
-        app.run(main_menu)
-    """
 
     def __init__(self,
                  title=None,
