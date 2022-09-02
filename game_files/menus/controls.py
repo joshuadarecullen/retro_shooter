@@ -1,7 +1,10 @@
 import pygame, sys
-from ui_elements import Text
-from util import write_save
-from scene import Scene
+base_files = f'{os.path.dirname(os.getcwd())}/base'
+from base_files import *
+
+# from ui_elements import Text
+# from util import write_save
+# from scene import Scene
 
 class Controls_Hander(Menu):
 

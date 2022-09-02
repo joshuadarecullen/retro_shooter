@@ -23,25 +23,25 @@ class Application:
         self.resolution = resolution
         self.update_rate = update_rate
 
-        # list of short cuts
-        self.shortcuts = {
-            (K_x, KMOD_LMETA): 'print("cmd+X")',
-            (K_x, KMOD_LALT): 'print("alt+X")',
-            (K_x, KMOD_LCTRL): 'print("ctrl+X")',
-            (K_x, KMOD_LMETA + KMOD_LSHIFT): 'print("cmd+shift+X")',
-            (K_x, KMOD_LMETA + KMOD_LALT): 'print("cmd+alt+X")',
-            (K_x, KMOD_LMETA + KMOD_LALT + KMOD_LSHIFT): 'print("cmd+alt+shift+X")',
-            (K_f, KMOD_LMETA): 'self.toggle_fullscreen()',
-            (K_r, KMOD_LMETA): 'self.toggle_resizable()',
-            (K_g, KMOD_LMETA): 'self.toggle_frame()',
-        }
+        # # list of short cuts
+        # self.shortcuts = {
+        #     (K_x, KMOD_LMETA): 'print("cmd+X")',
+        #     (K_x, KMOD_LALT): 'print("alt+X")',
+        #     (K_x, KMOD_LCTRL): 'print("ctrl+X")',
+        #     (K_x, KMOD_LMETA + KMOD_LSHIFT): 'print("cmd+shift+X")',
+        #     (K_x, KMOD_LMETA + KMOD_LALT): 'print("cmd+alt+X")',
+        #     (K_x, KMOD_LMETA + KMOD_LALT + KMOD_LSHIFT): 'print("cmd+alt+shift+X")',
+        #     (K_f, KMOD_LMETA): 'self.toggle_fullscreen()',
+        #     (K_r, KMOD_LMETA): 'self.toggle_resizable()',
+        #     (K_g, KMOD_LMETA): 'self.toggle_frame()',
+        # }
 
-    def do_shortcut(self, event):
-        """Find the the key/mod combination in the dictionary and execute the cmd."""
-        k = event.key
-        m = event.mod
-        if (k, m) in self.shortcuts:
-            exec(self.shortcuts[k, m])
+    # def do_shortcut(self, event):
+        # """Find the the key/mod combination in the dictionary and execute the cmd."""
+        # k = event.key
+        # m = event.mod
+        # if (k, m) in self.shortcuts:
+        #     exec(self.shortcuts[k, m])
 
     # TODO: fix these
     # def toggle_fullscreen(self):
