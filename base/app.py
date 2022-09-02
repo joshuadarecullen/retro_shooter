@@ -3,17 +3,62 @@ import pygame
 
 class Application:
 
+    '''
+        1. title of the application window
+        2. resolution or size of the application 
+        3. frame rate, how many times run() is going to execute per second
+    '''
     def __init__(self,
                  title=None,
                  resolution=None,
                  update_rate=None):
         pygame.init()
-        self.update_rate = update_rate
+
+        # current scene and screen
         self._scene = None
         self._screen = None
+
         # Trigger property setters
         self.title = title
         self.resolution = resolution
+        self.update_rate = update_rate
+
+        # list of short cuts
+        self.shortcuts = {
+            (K_x, KMOD_LMETA): 'print("cmd+X")',
+            (K_x, KMOD_LALT): 'print("alt+X")',
+            (K_x, KMOD_LCTRL): 'print("ctrl+X")',
+            (K_x, KMOD_LMETA + KMOD_LSHIFT): 'print("cmd+shift+X")',
+            (K_x, KMOD_LMETA + KMOD_LALT): 'print("cmd+alt+X")',
+            (K_x, KMOD_LMETA + KMOD_LALT + KMOD_LSHIFT): 'print("cmd+alt+shift+X")',
+            (K_f, KMOD_LMETA): 'self.toggle_fullscreen()',
+            (K_r, KMOD_LMETA): 'self.toggle_resizable()',
+            (K_g, KMOD_LMETA): 'self.toggle_frame()',
+        }
+
+    def do_shortcut(self, event):
+        """Find the the key/mod combination in the dictionary and execute the cmd."""
+        k = event.key
+        m = event.mod
+        if (k, m) in self.shortcuts:
+            exec(self.shortcuts[k, m])
+
+    # TODO: fix these
+    # def toggle_fullscreen(self):
+    #     """Toggle between full screen and windowed screen."""
+    #     self.flags ^= FULLSCREEN
+    #     pygame.display.set_mode((0, 0), self.flags)
+
+    # def toggle_resizable(self):
+    #     """Toggle between resizable and fixed-size window."""
+    #     self.flags ^= pygame.RESIZABLE
+    #     pygame.display.set_mode(self.rect.size, self.flags)
+    #     self.screen = pygame.display.set_mode(self.rect.size, flags)
+
+    # def toggle_frame(self):
+    #     """Toggle between frame and noframe window."""
+    #     self.flags ^= NOFRAME
+    #     pygame.display.set_mode(self.rect.size, self.flags)
 
     @property
     def title(self):
